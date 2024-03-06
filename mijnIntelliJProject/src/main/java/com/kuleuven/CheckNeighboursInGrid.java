@@ -11,6 +11,10 @@ public class CheckNeighboursInGrid {
      */
     public static Iterable<Integer> getSameNeighboursIds(Iterable<Integer> grid,int width, int height, int indexToCheck){
         //write you code below
+        Iterable<Integer> result;
+        for(int i = 0; i < indexToCheck; i++) {
+            int element = grid.next(); //TODO: Hoe tf werkt een iterator? Oplossing van ChatGPT gebruiken?
+        }
         return result;
     }
 }
