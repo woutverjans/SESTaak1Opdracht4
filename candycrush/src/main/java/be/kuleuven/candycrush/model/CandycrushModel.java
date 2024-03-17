@@ -1,4 +1,5 @@
 package be.kuleuven.candycrush.model;
+import com.KULeuven.CheckNeighboursInGrid;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ public class CandycrushModel {
     private ArrayList<Integer> speelbord;
     private int width;
     private int height;
+    private int score;
 
 
 
@@ -17,6 +19,7 @@ public class CandycrushModel {
         speelbord = new ArrayList<>();
         width = 4;
         height = 4;
+        score = 0;
 
         for (int i = 0; i < width*height; i++){
             Random random = new Random();
@@ -56,19 +59,31 @@ public class CandycrushModel {
     public int getHeight() {
         return height;
     }
+    public int getScore(){return score;}
 
-    public void candyWithIndexSelected(int index){
-        //TODO: update method so it also changes direct neighbours of same type and updates score
-        if (index != -1){
+    public void candyWithIndexSelected(int index) {
+        if (index != -1) {
+            Iterable<Integer> neighbours = CheckNeighboursInGrid.getSameNeighboursIds(speelbord, width, height, index);
             Random random = new Random();
-            int randomGetal = random.nextInt(5) + 1;
-            speelbord.set(index,randomGetal);
-        }else{
+
+            for (Integer neighborIndex : neighbours) {
+                int randomGetal = random.nextInt(5) + 1;
+                speelbord.set(neighborIndex, randomGetal);
+            }
+
+            int scoreIncrease = (int) neighbours.spliterator().getExactSizeIfKnown(); //score = aantal snoepjes veranderd
+            updateScore(scoreIncrease);
+
+        } else {
             System.out.println("model:candyWithIndexSelected:indexWasMinusOne");
         }
     }
 
     public int getIndexFromRowColumn(int row, int column) {
         return column+row*width;
+    }
+
+    public void updateScore(int scoreIncrease) {
+        this.score += scoreIncrease;
     }
 }
