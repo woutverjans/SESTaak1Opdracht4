@@ -12,8 +12,6 @@ public class CandycrushModel {
     private int height;
     private int score;
 
-
-
     public CandycrushModel(String speler) {
         this.speler = speler;
         speelbord = new ArrayList<>();
