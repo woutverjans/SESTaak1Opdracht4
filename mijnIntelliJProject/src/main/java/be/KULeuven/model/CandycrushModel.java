@@ -1,6 +1,8 @@
-package be.kuleuven.candycrush.model;
+package be.KULeuven.model;
+import be.KULeuven.model.BoardSize;
 import com.KULeuven.CheckNeighboursInGrid;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -8,18 +10,16 @@ import java.util.Random;
 public class CandycrushModel {
     private String speler;
     private ArrayList<Integer> speelbord;
-    private int width;
-    private int height;
+    private BoardSize boardSize;
     private int score;
 
     public CandycrushModel(String speler) {
         this.speler = speler;
         speelbord = new ArrayList<>();
-        width = 4;
-        height = 4;
+        this.boardSize = new BoardSize(4,4);
         score = 0;
 
-        for (int i = 0; i < width*height; i++){
+        for (int i = 0; i < boardSize.aantalKolommen()* boardSize.aantalRijen(); i++){
             Random random = new Random();
             int randomGetal = random.nextInt(5) + 1;
             speelbord.add(randomGetal);
@@ -33,7 +33,7 @@ public class CandycrushModel {
         while(iter.hasNext()){
             int candy = iter.next();
             System.out.print(candy);
-            if(i% model.getWidth()==0){
+            if(i% model.boardSize.aantalKolommen()==0){
                 System.out.print("\n");
                 i = 1;
             }
@@ -51,17 +51,14 @@ public class CandycrushModel {
     }
 
     public int getWidth() {
-        return width;
+        return boardSize.getAantalKolommen();
     }
 
-    public int getHeight() {
-        return height;
-    }
-    public int getScore(){return score;}
+    public BoardSize getBoardSize(){return boardSize;}
 
     public void candyWithIndexSelected(int index) {
         if (index != -1) {
-            Iterable<Integer> neighbours = CheckNeighboursInGrid.getSameNeighboursIds(speelbord, width, height, index);
+            Iterable<Integer> neighbours = CheckNeighboursInGrid.getSameNeighboursIds(speelbord, boardSize.getAantalKolommen(), boardSize.aantalRijen(), index);
             Random random = new Random();
 
             for (Integer neighborIndex : neighbours) {
@@ -77,11 +74,20 @@ public class CandycrushModel {
         }
     }
 
-    public int getIndexFromRowColumn(int row, int column) {
-        return column+row*width;
-    }
-
     public void updateScore(int scoreIncrease) {
         this.score += scoreIncrease;
+    }
+
+    public Iterable<Position> getSameNeighbourPositions(Position position){
+        ArrayList<Position> buren = (ArrayList<Position>) position.neighborPositions(position.toIndex());
+        ArrayList<Position> zelfdeBuren = new ArrayList<>();
+        boolean zelfdeType = false;
+        int snoepje = speelbord.get(position.toIndex());
+        for(Position buur : buren){
+            if(equals(buur.equals(snoepje))){
+                zelfdeBuren.add(buur);
+            }
+        }
+        return zelfdeBuren;
     }
 }

@@ -1,4 +1,4 @@
-package be.kuleuven.candycrush;
+/*package be.kuleuven.candycrush;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -61,3 +61,4 @@ public class CandycrushController {
     }
 
 }
+*/

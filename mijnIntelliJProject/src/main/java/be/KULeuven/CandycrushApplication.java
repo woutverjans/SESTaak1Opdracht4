@@ -1,4 +1,4 @@
-package be.kuleuven.candycrush;
+/*package be.KULeuven;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,4 +20,4 @@ public class CandycrushApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
-}
+}*/

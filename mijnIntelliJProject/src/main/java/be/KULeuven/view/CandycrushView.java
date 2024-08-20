@@ -1,6 +1,6 @@
-package be.kuleuven.candycrush.view;
-
-import be.kuleuven.candycrush.model.CandycrushModel;
+package be.KULeuven.view;
+/*
+import be.KULeuven.model.CandycrushModel;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
@@ -58,3 +58,4 @@ public class CandycrushView extends Region {
         return index;
     }
 }
+*/

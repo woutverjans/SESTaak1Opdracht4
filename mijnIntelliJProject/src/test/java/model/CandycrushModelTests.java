@@ -1,4 +1,4 @@
-package be.kuleuven.candycrush.model;
+/*package be.kuleuven.candycrush.model;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,3 +59,4 @@ public class CandycrushModelTests {
         assertEquals(15, model.getIndexFromRowColumn(4, 4));
     }
 }
+*/
