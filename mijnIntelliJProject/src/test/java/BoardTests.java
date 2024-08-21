@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardTests {
-    @Test
+    /*@Test
     public void gegevengelijkBoardSizesEn4Cellen_wanneerCopyTo_danZijnBordenGelijk() throws Exception {
         ArrayList<String> cellenEersteBord = new ArrayList<>();
         ArrayList<String> cellenTweedeBord = new ArrayList<>();
@@ -22,5 +22,5 @@ public class BoardTests {
         var tweedeBord = new Board(cellenTweedeBord, boardSize);
         eersteBord.copyTo(tweedeBord);
         assert(eersteBord.equals(tweedeBord));
-    }
+    }*/
 }

@@ -24,7 +24,8 @@ public class CandycrushModel {
         for (int i = 0; i < boardSize.aantalKolommen()* boardSize.aantalRijen(); i++){
             Random random = new Random();
             int randomGetal = random.nextInt(5) + 1;
-            speelbord.getCellen().add(randomCandy());
+            speelbord.getCellen().put(fromIndex(i, boardSize), randomCandy());
+            speelbord.getomgekeerdeCellen().put(randomCandy(), fromIndex(i, boardSize));
         }
     }
 
@@ -60,9 +61,8 @@ public class CandycrushModel {
 
     public void candyWithIndexSelected(int index) {
         if (index != -1) {
-            Iterable<Integer> neighbours = CheckNeighboursInGrid.getSameNeighboursIds(speelbord.getCellen(), boardSize.getAantalKolommen(), boardSize.aantalRijen(), index);
+            Iterable<Integer> neighbours = CheckNeighboursInGrid.getSameNeighboursIds(new ArrayList<>(speelbord.getCellen().values()), boardSize.getAantalKolommen(), boardSize.aantalRijen(), index); //Zet speelbord.getCellen eerst om naar een ArrayList omdat er een Iterable nodig is daar
             Random random = new Random();
-
             for (Integer neighborIndex : neighbours) {
                 int randomGetal = random.nextInt(5) + 1;
                 speelbord.replaceCellAtPosition(fromIndex(neighborIndex, this.boardSize), randomCandy());

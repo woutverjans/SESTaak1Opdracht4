@@ -1,15 +1,21 @@
 package be.KULeuven.model;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 public class Board<E> { //E is een cel op het bord, ongeacht voor wat dit bord dient
-    private ArrayList<E> cellen;
+    private Map<Position, E> cellen; //Houdt het element op elke positie bij
+    private Map<E, Position> omgekeerdeCellen; //Omgekeerd, houd dus bij waar een bepaald element allemaal voorkomt
     private BoardSize boardSize;
 
-    public ArrayList<E> getCellen(){return this.cellen;}
-    public void setCellen(ArrayList<E> cellen){
+    public Map getCellen(){return this.cellen;}
+    public Map getomgekeerdeCellen(){return this.omgekeerdeCellen;}
+    public void setCellen(Map cellen){
         this.cellen = cellen;
+        this.omgekeerdeCellen = cellen;
     }
     public BoardSize getBoardSize(){return this.boardSize;}
 
@@ -19,11 +25,12 @@ public class Board<E> { //E is een cel op het bord, ongeacht voor wat dit bord d
     }
 
     public void replaceCellAtPosition(Position position, E nieuweCel){
-        cellen.set(position.toIndex(), nieuweCel);
+        cellen.put(position, nieuweCel);
+        omgekeerdeCellen.put(nieuweCel, position);
     }
 
     public void fill(Function cellCreator, Position position){
-       cellen.set(position.toIndex(), cellCreator());
+       cellen.put(position, cellCreator());
     }
     private E cellCreator(){
         return null; //Geeft niet het juiste terug
@@ -36,7 +43,7 @@ public class Board<E> { //E is een cel op het bord, ongeacht voor wat dit bord d
         else throw new Exception("BoardSizes zijn niet gelijk");
     }
 
-    public Board(ArrayList<E> cellen, BoardSize boardSize){
+    public Board(Map cellen, BoardSize boardSize){
         this.cellen = cellen;
         this.boardSize = boardSize;
     }
@@ -52,5 +59,9 @@ public class Board<E> { //E is een cel op het bord, ongeacht voor wat dit bord d
         }
         Board board = (Board) obj;
         return boardSize.equals(board.boardSize) && cellen.equals(board.cellen);
+    }
+
+    public List<Position> getPositionsOfElement(E element){
+        return List.of(omgekeerdeCellen.get(element)); //Volgens de SES website 5.3: Collections: 5.3.: Lijsten aanmaken is dit immutable
     }
 }
