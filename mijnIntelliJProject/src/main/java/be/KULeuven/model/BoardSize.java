@@ -1,6 +1,8 @@
 package be.KULeuven.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import static be.KULeuven.model.Position.fromIndex;
 
@@ -23,7 +25,7 @@ public record BoardSize(int aantalKolommen, int aantalRijen){
         this.aantalRijen = aantalRijen;
     }
 
-    public Iterable<Position> positions(){
+    public Collection<Position> positions(){
         int maxIndex = aantalRijen * aantalKolommen - 1; // = het aantal indexen (posities) op het bord
         ArrayList<Position> posities = new ArrayList<>();
         BoardSize bord = new BoardSize(aantalKolommen, aantalRijen);

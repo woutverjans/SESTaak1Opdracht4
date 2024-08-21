@@ -1,6 +1,8 @@
 package be.KULeuven.model;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public record Position(int rij, int kolom, BoardSize boardSize) {
     public boolean isGeldigePositie(int rij, int kolom, BoardSize boardSize) {
@@ -80,5 +82,29 @@ public record Position(int rij, int kolom, BoardSize boardSize) {
         if(boardSize.aantalKolommen() -1 == pos.kolom){ isLast = true;}
         else isLast = false;
         return isLast;
+    }
+
+    public Stream<Position> walkLeft(Position position){
+        return IntStream.range(position.kolom() - 1, -1) // -1 want -1 zit er dan niet in de range, 0 wel nog. De kolommen 0 tot en met direct links van de positie
+                .mapToObj(nieuweKolom -> new Position(nieuweKolom, position.rij, boardSize))
+                .filter(positie -> isGeldigePositie(positie.kolom, positie.rij, boardSize));
+    }
+
+    public Stream<Position> walkRight(Position position){
+        return IntStream.range(position.kolom() + 1, boardSize.getAantalKolommen() - 1)
+                .mapToObj(nieuweKolom -> new Position(nieuweKolom, position.rij, boardSize))
+                .filter(positie -> isGeldigePositie(positie.kolom, positie.rij, boardSize));
+    }
+
+    public Stream<Position> walkUp(Position position){
+        return IntStream.range(position.rij - 1, -1)
+                .mapToObj(nieuweRij -> new Position(position.kolom, nieuweRij, boardSize))
+                .filter(positie -> isGeldigePositie(positie.kolom, positie.rij, boardSize));
+    }
+
+    public Stream<Position> walkDown(Position position){
+        return IntStream.range(position.rij + 1, boardSize.getAantalRijen() - 1)
+                .mapToObj(nieuweRij -> new Position(position.kolom, nieuweRij, boardSize))
+                .filter(positie -> isGeldigePositie(positie.kolom, positie.rij, boardSize));
     }
 }
