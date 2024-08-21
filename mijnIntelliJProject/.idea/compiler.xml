@@ -3,4 +3,9 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="21" />
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="mijnIntelliJProject.main" options="--add-exports java.datatransfer/java.awt=be.kuleuven.candycrush" />
+    </option>
+  </component>
 </project>

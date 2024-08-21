@@ -1,12 +1,16 @@
 package be.KULeuven.view;
-/*
+
+import be.KULeuven.model.Candy;
 import be.KULeuven.model.CandycrushModel;
+import be.KULeuven.model.Position;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import org.w3c.dom.Node;
 
+import java.awt.*;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -57,5 +61,14 @@ public class CandycrushView extends Region {
         }
         return index;
     }
+
+    Node makeCandyShape(Position position, Candy candy){
+        return switch(candy){
+            case Candy.NormalCandy c -> Circle cirkel = new Circle(10);
+            case Candy.Gummybeer c -> Rectangle rechthoek = new Rectangle(10, 20);
+            case Candy.Haaientand c -> Rectangle rechthoek = new Rectangle(10, 20);
+            case Candy.Lekstok c -> Rectangle rechthoek = new Rectangle(10, 20);
+            case Candy.Zuurstok c -> Rectangle rechthoek = new Rectangle(10, 20);
+        };
+    }
 }
-*/
