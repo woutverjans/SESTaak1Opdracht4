@@ -1,4 +1,4 @@
-package be.KULeuven.view;
+/*package be.KULeuven.view;
 
 import be.KULeuven.model.Candy;
 import be.KULeuven.model.CandycrushModel;
@@ -71,4 +71,4 @@ public class CandycrushView extends Region {
             case Candy.Zuurstok c -> Rectangle rechthoek = new Rectangle(10, 20);
         };
     }
-}
+}*/

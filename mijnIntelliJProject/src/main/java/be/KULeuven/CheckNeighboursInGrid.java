@@ -1,5 +1,7 @@
 package com.KULeuven;
 
+import be.KULeuven.model.Candy;
+
 import java.util.ArrayList;
 
 public class CheckNeighboursInGrid {
@@ -11,40 +13,41 @@ public class CheckNeighboursInGrid {
      *@param height - Specifies the height of the grid (extra for checking if 1D grid is complete given the specified width)
      *@param indexToCheck - Specifies the index of the element which neighbours that need to be checked
      */
-    public static Iterable<Integer> getSameNeighboursIds(Iterable<Integer> grid,int width, int height, int indexToCheck){
+    public static Iterable<Integer> getSameNeighboursIds(Iterable<Candy> grid, int width, int height, int indexToCheck){
         //Van voorbeeld op site SES: index 0 is links boven in de grid
-        ArrayList<Integer> result = new ArrayList<>();
-        ArrayList<Integer> gridList = new ArrayList<>();
+        ArrayList<Candy> result = new ArrayList<>();
+        ArrayList<Candy> gridList = new ArrayList<>();
 
-        for (Integer element : grid) { //Zet grid om van een Iterable naar een ArrayList
+        for (Candy element : grid) { //Zet grid om van een Iterable naar een ArrayList
             gridList.add(element);
         }
 
         // Check element to the left
         if (indexToCheck % width != 0 && gridList.get(indexToCheck).equals(gridList.get(indexToCheck - 1))) {
-            result.add(indexToCheck - 1);
+            //result.add(indexToCheck - 1);
         }
 
         // Check element to the right
         if (indexToCheck % width != width - 1 && gridList.get(indexToCheck).equals(gridList.get(indexToCheck + 1))) {
-            result.add(indexToCheck + 1);
+            //result.add(indexToCheck + 1);
         }
 
         // Check element above
         if (indexToCheck >= width && gridList.get(indexToCheck).equals(gridList.get(indexToCheck - width))) {
-            result.add(indexToCheck - width);
+            //result.add(indexToCheck - width);
         }
 
         // Check element below
         if (indexToCheck + width < gridList.size() && gridList.get(indexToCheck).equals(gridList.get(indexToCheck + width))) {
-            result.add(indexToCheck + width);
+            //result.add(indexToCheck + width);
         }
 
         // Check element top left
         if (indexToCheck >= width && indexToCheck % width != 0 && gridList.get(indexToCheck).equals(gridList.get(indexToCheck - width - 1))) {
-            result.add(indexToCheck - width - 1);
+            //result.add(indexToCheck - width - 1);
         }
 
-        return result;
+        //return result;
+        return null;
     }
 }
