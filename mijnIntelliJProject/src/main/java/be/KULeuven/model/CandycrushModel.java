@@ -154,4 +154,52 @@ public class CandycrushModel {
                 .takeWhile(p -> speelbord.getCellAtPosition(p).equals(speelbord.getCellAtPosition(position)))
                 .collect(Collectors.toList());
     }
+
+    private void clearMatch(List<Position> match) {
+        if (match.isEmpty()) {return;} //Als de List leeg is mag er gestopt worden
+        Position position = match.get(0);
+        speelbord.replaceCellAtPosition(position, null); //Heb null gebruikt om lege plaatsen aan te tonen
+        match.remove(0);
+        List<Position> cellen = new ArrayList<>(speelbord.getCellen().keySet());
+        clearMatch(match); //Geeft een geupdate versie van de matches mee aan de volgende instantie van de methode
+    }
+
+    private void fallDownTo(Position pos) {
+        int rij = pos.rij(); //De rij is het enige dat van de candy veranderd in de positie van de candy
+
+        while (rij < boardSize.getAantalRijen() - 1) { //Bord is opgebouwd met idex 0 links vanboven (zoals bij punt 3 van opdracht 8 op de website staat)
+            Position volgendePositie = new Position(rij - 1, pos.kolom(), boardSize); //volgendePositie is de positie van de volgende candy dat naar beneden moet vallen
+            Candy aboveCandy = speelbord.getCellAtPosition(volgendePositie);
+
+            if (aboveCandy == null) {
+                rij++;
+            }
+            else {
+                Candy candyOpPositie = speelbord.getCellAtPosition(pos);
+                speelbord.replaceCellAtPosition(pos, aboveCandy);
+                speelbord.replaceCellAtPosition(volgendePositie, candyOpPositie);
+
+                fallDownTo(volgendePositie);
+                return;
+            }
+        }
+    }
+
+    private boolean updateBoard() {
+        boolean matchesVerwijderd = false;
+        Set<List<Position>> matches = findAllMatches();
+        if (!matches.isEmpty()) {
+            matchesVerwijderd = true;
+
+            for (List<Position> match : matches) {
+                clearMatch(match);
+            }
+            for (int i = 0; i < speelbord.getBoardSize().aantalKolommen(); i++) { //i stelt hier de kolom voor waarin de candies naar beneden vallen
+                fallDownTo(new Position(speelbord.getBoardSize().aantalRijen() - 1, i, boardSize));
+            }
+
+            updateBoard();
+        }
+        return matchesVerwijderd;
+    }
 }
