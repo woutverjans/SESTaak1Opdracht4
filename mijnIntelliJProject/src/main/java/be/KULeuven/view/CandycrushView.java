@@ -71,4 +71,50 @@ public class CandycrushView extends Region {
             case Candy.Zuurstok c -> Rectangle rechthoek = new Rectangle(10, 20);
         };
     }
+
+    CandycrushModel model1 = createBoardFromString("""
+   @@o#
+   o*#o
+   @@**
+   *#@@""");
+
+    CandycrushModel model2 = createBoardFromString("""
+   #oo##
+   #@o@@
+   *##o@
+   @@*@o
+   **#*o""");
+
+    CandycrushModel model3 = createBoardFromString("""
+   #@#oo@
+   @**@**
+   o##@#o
+   @#oo#@
+   @*@**@
+   *#@##*""");
+
+
+    public static CandycrushModel createBoardFromString(String configuration) {
+        var lines = configuration.toLowerCase().lines().toList();
+        BoardSize size = new BoardSize(lines.size(), lines.getFirst().length());
+        var model = createNewModel(size); // deze moet je zelf voorzien
+        for (int row = 0; row < lines.size(); row++) {
+            var line = lines.get(row);
+            for (int col = 0; col < line.length(); col++) {
+                model.setCandyAt(new Position(row, col, size), characterToCandy(line.charAt(col)));
+            }
+        }
+        return model;
+    }
+
+    private static Candy characterToCandy(char c) {
+        return switch(c) {
+            case '.' -> null;
+            case 'o' -> new Candy.NormalCandy(0);
+            case '*' -> new Candy.NormalCandy(1);
+            case '#' -> new Candy.NormalCandy(2);
+            case '@' -> new Candy.NormalCandy(3);
+            default -> throw new IllegalArgumentException("Unexpected value: " + c);
+        };
+    }
 }*/

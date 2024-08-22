@@ -202,4 +202,21 @@ public class CandycrushModel {
         }
         return matchesVerwijderd;
     }
+
+    private void maximizeScore(Board bord){//Skelet deze en volgende methodes (inclusief PartialSolution, Solution en Extension.java) van de SES website
+        /*
+        * Algemene plan: begin bij positie met index 0 en ga alle mogelijke wissels af, als er geen zijn:
+        * ga naar positie 2 en doe hetzelfde. Als er wel een match kan gemaakt worden ga dan verder hiermee
+        * maw: voer de hele functie opnieuw uit over het nieuwe bord dat er onstaan is na de match.
+        * Houdt alle mogelijke wissels bij in een (Array)List? Beste oplossing is degene die het meeste candies weg doet.
+        *
+        * Een move wordt bijgehouden als de 2 indexen die gewisselt worden van plaats
+        * */
+
+
+    }
+    public Solution solve() {
+        PartialSolution initial = new PartialSolution(speelbord, new ArrayList<>()); // Create an initial solution with an empty list of moves
+        return findOptimalSolution(initial, null);
+    }
 }
