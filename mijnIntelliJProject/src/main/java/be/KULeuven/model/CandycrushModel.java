@@ -3,9 +3,10 @@ import be.KULeuven.model.BoardSize;
 import com.KULeuven.CheckNeighboursInGrid;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static be.KULeuven.model.Position.fromIndex;
 
@@ -94,4 +95,63 @@ public class CandycrushModel {
     }
 
     public static Candy randomCandy(){return null;}
+
+    public Set<List<Position>> findAllMatches(){ //Geeft alle matchen (3 opgeenvolgende dezelfde) terug
+        Set<List<Position>> matchendeKetens = new HashSet<>(); //Kan niet gewoon Set gebruiken?
+        //Plan: ga eerst alle horizontale matches zoeken en dan de verticale, deze 2 (streams of al lijsten?) samenvoegen (concateneren?)
+        horizontalStartingPositions()
+                .forEach(positie -> {
+                    List<Position> match = longestMatchToRight(positie);
+                    if (match.size() >= 3) {
+                        matchendeKetens.add(match);
+                    }
+                });
+
+        verticalStartingPositions()
+                .forEach(positie -> {
+                    List<Position> match = longestMatchToDown(positie);
+                    if (match.size() >= 3) {
+                        matchendeKetens.add(match);
+                    }
+                });
+        return matchendeKetens;
+    } //Hulpfuncties staan hieronder (tot en met longestMatchDown)
+
+    private boolean firstTwoHaveCandy(Candy candy, Stream<Position> positions){ //Geeft true terug wanneer er op de eerste 2 posities van een stream de gegeven Candy staat
+        if(positions.limit(2)
+                .allMatch(positie -> speelbord.getCellAtPosition(positie).equals(candy))){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //Deze 2 zoeken mogelijke startposities van een nieuwe match, wordt telkens rechts en onder een positie gekeken
+    private Stream<Position> horizontalStartingPositions() {
+        return IntStream.range(0, speelbord.getBoardSize().aantalRijen() - 1)
+                .boxed()
+                .flatMap(rij -> IntStream.range(0, speelbord.getBoardSize().getAantalKolommen() - 1)
+                        .mapToObj(kolom -> new Position(rij, kolom, boardSize))
+                        .filter(positie -> !firstTwoHaveCandy(speelbord.getCellAtPosition(positie), positie.walkRight(positie))));
+    }
+    private Stream<Position> verticalStartingPositions() {
+        return IntStream.range(0, speelbord.getBoardSize().getAantalKolommen() - 1)
+                .boxed()
+                .flatMap(rij -> IntStream.range(0, speelbord.getBoardSize().aantalRijen() - 1)
+                        .mapToObj(kolom -> new Position(rij, kolom, boardSize))
+                        .filter(positie -> !firstTwoHaveCandy(speelbord.getCellAtPosition(positie), positie.walkDown(positie))));
+    }
+
+    //Deze 2 zoeken de langste matchen vanaf een positie
+    private List<Position> longestMatchToRight(Position position){
+        return position.walkRight(position)
+                .takeWhile(p -> speelbord.getCellAtPosition(p).equals(speelbord.getCellAtPosition(position)))
+                .collect(Collectors.toList());
+    }
+    private List<Position> longestMatchToDown(Position position){
+        return position.walkDown(position)
+                .takeWhile(p -> speelbord.getCellAtPosition(p).equals(speelbord.getCellAtPosition(position)))
+                .collect(Collectors.toList());
+    }
 }
