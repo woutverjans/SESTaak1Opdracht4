@@ -203,7 +203,7 @@ public class CandycrushModel {
         return matchesVerwijderd;
     }
 
-    private void maximizeScore(Board bord){//Skelet deze en volgende methodes (inclusief PartialSolution, Solution en Extension.java) van de SES website
+    private BoardPartialSolution maximizeScore(BoardPartialSolution bordpartieleOpl, List<BoardSolution> oplossingen){//Skelet deze en volgende methodes (inclusief PartialSolution, Solution en Extension.java) van de SES website
         /*
         * Algemene plan: begin bij positie met index 0 en ga alle mogelijke wissels af, als er geen zijn:
         * ga naar positie 2 en doe hetzelfde. Als er wel een match kan gemaakt worden ga dan verder hiermee
@@ -212,11 +212,14 @@ public class CandycrushModel {
         *
         * Een move wordt bijgehouden als de 2 indexen die gewisselt worden van plaats
         * */
-
-
+        return BoardPartialSolution(bordpartieleOpl, oplossingen);
     }
-    public Solution solve() {
-        PartialSolution initial = new PartialSolution(speelbord, new ArrayList<>()); // Create an initial solution with an empty list of moves
-        return findOptimalSolution(initial, null);
+    public List<int[]> solve() { //Geeft een eerste move aan maximizeScore
+        BoardPartialSolution initialSolution = new BoardPartialSolution(speelbord, new ArrayList<>());
+        List<int[]> initialMove = List.of(new int[]{0, 1});
+        maximizeScore(initialSolution, null);
+        return besteOplossing;
     }
+
+    private List<int[]> besteOplossing;
 }
